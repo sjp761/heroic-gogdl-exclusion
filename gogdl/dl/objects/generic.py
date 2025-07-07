@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 from enum import Flag, auto
+from fnmatch import fnmatch
+import os
 from typing import Optional
 
 
@@ -91,3 +93,14 @@ class FileTask:
 @dataclass
 class TerminateWorker:
     pass
+
+class FileExclusion:
+    def matches(file, excludelist):
+        for pattern in excludelist:
+            if '/' in file and not pattern.endswith('*') and not pattern.startswith('*'):
+                if os.path.dirname(file) == os.path.dirname(pattern) and fnmatch(os.path.basename(file), os.path.basename(pattern)):
+                    return True
+            else:
+                if fnmatch(file,pattern):
+                    return True
+        return False

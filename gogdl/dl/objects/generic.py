@@ -97,7 +97,7 @@ class TerminateWorker:
 class FileExlusion:
     def matches(file, exclude_list):
         for pattern in exclude_list:
-            if '/' in file.path and not pattern.endswith('*'): #If pattern contains a seperator, check dirname and basename seperately. Ensures that only files in specified directories are excluded.
+            if '/' in file.path and not pattern.endswith('*') and not pattern.startswith('*'):
                 if os.path.dirname(file.path) == os.path.dirname(pattern) and fnmatch(os.path.basename(file.path), os.path.basename(pattern)):
                     return True
             elif fnmatch(file.path, pattern):

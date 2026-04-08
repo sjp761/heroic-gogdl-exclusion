@@ -47,8 +47,31 @@ pip install pyinstaller
 - Build the binary (assuming you are in heroic-gogdl direcory)
 
 ```bash
-pip install -e . # Ensure you build the C code to python module
+pip install -e . # Ensure you build the C code to python module in current directory
 pyinstaller --onefile --name gogdl gogdl/cli.py
+```
+
+## Building zipapp executable
+
+For Linux it is especially recommended to use zipapp format, as it allows gogdl by relying on OS provided python interpretter
+
+- Install gogdl and its dependencies into build directory
+
+```bash
+pip install . --target build 
+```
+
+- Copy custom entry point - it's required to unpack the C lib to a known location
+
+Right now the entry point is hardcoded for Linux support only
+```bash
+cp zipapp_main.py build/__main__.py
+``` 
+
+- Package
+
+```bash
+python -m zipapp --output dist/gogdl --python "/usr/bin/env python3" --compress build
 ```
 
 ## Great resources about GOG API

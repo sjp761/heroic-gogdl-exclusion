@@ -66,19 +66,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-
-      - name: Install dependencies
-        run: pip3 install --upgrade requests --target build
       
-      - name: Build C module
-        run: pip3 install -e . 
+      - name: Install gogdl into zipapp dir
+        run: pip3 install . --target build 
       
       - run: mkdir -p dist
 
       - name: Copy files
         run: |
-          cp -r gogdl build
-          cp gogdl_xdelta3.abi3.* build/
           cp zipapp_main.py build/__main__.py
 
       - name: Build
